@@ -1,0 +1,17 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:11
+    container_name: wallet_database_debug
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test
+    command: ["postgres", "-c", "log_statement=none"]
