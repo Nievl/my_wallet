@@ -1,14 +1,14 @@
-import { Transaction } from '../../dto/transaction';
+import { ITransaction } from '../../dto/Transaction';
 import { usePagination, useSortBy, useTable } from 'react-table';
 
 interface Props {
-  transactions: Transaction[];
+  transactions: ITransaction[];
 }
 
 const columns = [
   {
     Header: 'date',
-    accessor: 'date',
+    accessor: 'dateCreate',
   },
   {
     Header: 'category',

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { uploadCsv } from './controllers/upload';
-import { result } from '../dto/result';
-import { Transaction } from '../dto/transaction';
-import { TransactionsList } from './Table/TransactionsList';
+import { IresultWithData } from '../dto/result';
+import { ITransaction } from '../dto/Transaction';
+import { TransactionsList } from './Transactions/TransactionsList';
 import {
   Button,
   Card,
-  CardText,
+  CardBody,
   CardTitle,
   Col,
   Nav,
@@ -19,10 +19,11 @@ import {
   ToastBody,
   ToastHeader,
 } from 'reactstrap';
+import { Options } from './Options/Options';
 
 const App = () => {
   const [key, setKey] = useState('upload');
-  const [data, setData] = useState<Transaction[]>([]);
+  const [data, setData] = useState<ITransaction[]>([]);
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const csv = ((e.target as HTMLFormElement)[0] as HTMLInputElement).files?.[0];
@@ -30,12 +31,12 @@ const App = () => {
       let formData = new FormData();
 
       formData.append('file', csv);
-      uploadCsv(formData).then((res: result<Transaction[]>) => setData(res.data));
+      uploadCsv(formData).then((res: IresultWithData<ITransaction[]>) => setData(res.data));
     }
   };
 
   return (
-    <Row>
+    <Row style={{ maxWidth: '100vw' }}>
       <Col sm="10">
         <Nav tabs>
           <NavItem>
@@ -45,7 +46,12 @@ const App = () => {
           </NavItem>
           <NavItem>
             <NavLink className="" onClick={() => setKey('transactions')}>
-              More Tabs
+              Операции
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink className="" onClick={() => setKey('options')}>
+              Настройки
             </NavLink>
           </NavItem>
         </Nav>
@@ -55,14 +61,14 @@ const App = () => {
               <Col sm="6">
                 <Card body>
                   <CardTitle>Загрузка CSV</CardTitle>
-                  <CardText>
+                  <CardBody>
                     <form onSubmit={onSubmit}>
                       <input type="file" id="input"></input>
                       <Button variant="primary" type="submit">
                         Загрузить csv
                       </Button>
                     </form>
-                  </CardText>
+                  </CardBody>
                 </Card>
               </Col>
             </Row>
@@ -72,6 +78,13 @@ const App = () => {
               <Col sm="12">
                 <h4>Операции</h4>
                 <TransactionsList transactions={data} />
+              </Col>
+            </Row>
+          </TabPane>
+          <TabPane tabId="options">
+            <Row>
+              <Col sm="12">
+                <Options />
               </Col>
             </Row>
           </TabPane>
