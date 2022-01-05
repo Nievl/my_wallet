@@ -2,36 +2,34 @@ import 'reflect-metadata';
 import bodyParser from 'body-parser';
 import express from 'express';
 import Container from 'typedi';
-import config from './config';
+import path from 'path';
 import { useContainer, useExpressServer } from 'routing-controllers';
+import config from './config';
 import { DataBase } from './database';
 import ErrorHandlerMiddleware from './services/middlewares/errorHandlerMiddleware';
-import { VersionController } from './controllers/version.controller';
-import { UploadCsv } from './controllers/uploadCsv.controllers';
 
 const server = express();
 
 useExpressServer(server, {
   defaultErrorHandler: false,
-  controllers: [VersionController, UploadCsv],
+  controllers: [path.join(__dirname + '/controllers/*.ts')],
   classTransformer: false,
   validation: false,
-  middlewares: [
-    bodyParser.urlencoded({ extended: true }),
-    bodyParser.json(),
-    ErrorHandlerMiddleware,
-    express.static('web/build'),
-  ],
+  middlewares: [bodyParser.urlencoded({ extended: true }), bodyParser.json(), ErrorHandlerMiddleware],
 });
-const database = new DataBase();
+
+server.use('/', express.static(path.join(__dirname + '/../web/build')));
+export const database = new DataBase();
 useContainer(Container);
 
-// DB connection init
-database
-  .connect()
-  .then(async (connection) => console.log('Connection to DB was established'))
-  .catch(() => console.log("Can't establish connection to DB"));
-
-server.listen(config.listenPort, () => {
-  console.log(`Example app listening at http://localhost:${config.listenPort}`);
-});
+(async () => {
+  try {
+    await server.listen(config.listenPort);
+    console.log(`Example app listening at http://localhost:${config.listenPort}`);
+    // DB connection init
+    const message = await database.connect();
+    console.log(message, 'Connection to DB was established');
+  } catch (error) {
+    console.log(error);
+  }
+})();
