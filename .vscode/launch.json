@@ -14,6 +14,14 @@
       "address": "127.0.0.1",
       "protocol": "inspector",
       "restart": true
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Node: Nodemon",
+      "processId": "${command:PickProcess}",
+      "restart": true,
+      "protocol": "inspector"
     }
   ]
 }
