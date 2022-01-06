@@ -15,7 +15,7 @@ class Errors {
     this.errors.push({ id: Date.now(), message });
   }
   remove(id: number) {
-    this.errors.filter((m) => !(m.id === id));
+    this.errors = this.errors.filter((m) => !(m.id === id));
   }
 }
 
