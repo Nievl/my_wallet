@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { createHash } from 'crypto';
-import { Transaction } from '../models/entity/Transaction';
+import { TransactionRequest } from '../../web/dto/Transaction';
 
 export const setRequestIdInRequest = (request: Request, requestId: string): void => {
   // tslint:disable-next-line:no-string-literal
@@ -13,7 +13,7 @@ export const getRequestIdFromRequest = (request: Request): string => {
 };
 
 export const createHashTransaction = (
-  transaction: Pick<Transaction, 'dateCreate' | 'category' | 'amount' | 'description'>
+  transaction: Pick<TransactionRequest, 'dateCreate' | 'category' | 'amount' | 'description'>
 ): string => {
   return createHash('md5')
     .update(`${transaction.dateCreate}${transaction.category}${transaction.amount}${transaction.description}`)

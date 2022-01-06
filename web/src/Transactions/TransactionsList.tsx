@@ -1,7 +1,9 @@
 import { usePagination, useSortBy, useTable } from 'react-table';
 import { observer } from 'mobx-react-lite';
 import { transactionState } from '../states/transaction';
-import { Button, Card, CardBody, CardTitle, Col, Form, FormGroup, Input, InputGroup } from 'reactstrap';
+import { Button, Card, CardBody, CardTitle, Col, Form, FormGroup, Input, InputGroup, Row } from 'reactstrap';
+import { viewState } from '../states/view';
+import { AddTransaction } from './AddTransaction';
 
 interface Props {}
 
@@ -12,7 +14,7 @@ const columns = [
   },
   {
     Header: 'category',
-    accessor: 'category',
+    accessor: 'category.name',
   },
   {
     Header: 'amount',
@@ -20,7 +22,7 @@ const columns = [
   },
   {
     Header: 'currency',
-    accessor: 'currency',
+    accessor: 'currency.name',
   },
   {
     Header: 'description',
@@ -32,7 +34,7 @@ export const TransactionsList = observer(({}: Props) => {
   const transactions = transactionState.transactions;
   const tableInstance = useTable(
     // @ts-ignore
-    { columns, data: transactions, initialState: { pageIndex: 1 } },
+    { columns, data: transactions, initialState: { pageIndex: 0 } },
     useSortBy,
     usePagination
   );
@@ -66,21 +68,28 @@ export const TransactionsList = observer(({}: Props) => {
   return (
     <>
       <h4>Операции</h4>
-      <Col xs={6}>
-        <Card body className="m-3">
-          <CardTitle>Загрузка CSV</CardTitle>
-          <CardBody>
-            <Form onSubmit={onSubmit}>
-              <InputGroup>
-                <Input type="file" id="input"></Input>
-                <Button color="primary" type="submit">
-                  Загрузить csv
-                </Button>
-              </InputGroup>
-            </Form>
-          </CardBody>
-        </Card>
-      </Col>
+      <Row className="m-3">
+        <Col xs={6}>
+          <Card body>
+            <CardTitle>Загрузка CSV</CardTitle>
+            <CardBody>
+              <Form onSubmit={onSubmit}>
+                <InputGroup>
+                  <Input type="file" id="input"></Input>
+                  <Button color="primary" type="submit">
+                    Загрузить csv
+                  </Button>
+                </InputGroup>
+              </Form>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col xs={6}>
+          <Button color="primary" onClick={() => viewState.showAddTransaction(true)}>
+            Добавить
+          </Button>
+        </Col>
+      </Row>
       <table {...getTableProps()} className="table table-striped table-bordered ">
         <thead>
           {
@@ -194,6 +203,7 @@ export const TransactionsList = observer(({}: Props) => {
           )}
         </code>
       </pre>
+      <AddTransaction />
     </>
   );
 });

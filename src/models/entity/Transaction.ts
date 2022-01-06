@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Category } from './Category';
 import { Currency } from './Currency';
 
@@ -13,16 +13,14 @@ export class Transaction {
   @Column()
   amount: number;
 
-  @Column()
-  @OneToMany(() => Category, (category) => category.name)
-  category: number;
+  @ManyToOne(() => Category, (category) => category.name)
+  category: Category;
 
   @Column()
   converted_amount: number;
 
-  @Column()
-  @OneToMany(() => Currency, (currency) => currency.name)
-  currency: number;
+  @ManyToOne(() => Currency, (currency) => currency.name)
+  currency: Currency;
 
   @Column({ nullable: false, type: 'date' })
   dateCreate: Date;

@@ -1,3 +1,6 @@
+import { ICategory } from './Category';
+import { ICurrency } from './Currency';
+
 export interface ParsedTransaction {
   account: string;
   amount: string;
@@ -11,13 +14,16 @@ export interface ITransaction {
   id: number;
   account: string;
   amount: number;
-  category: number;
+  category: ICategory;
   converted_amount: number;
-  currency: number;
+  currency: ICurrency;
   dateCreate: Date;
   dateChange: Date | null;
   description: string | null;
   hash: string;
 }
 
-export type TransactionRequest = Omit<ITransaction, 'id' | 'dateChange' | 'hash'>;
+export type TransactionRequest = Omit<ITransaction, 'id' | 'dateChange' | 'hash' | 'category' | 'currency'> & {
+  category: number;
+  currency: number;
+};

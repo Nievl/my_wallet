@@ -3,7 +3,7 @@ import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, M
 import { IOptions } from '../controllers/options';
 import { categorysState } from '../states/category';
 import { currencysState } from '../states/currensy';
-import { modalsState } from '../states/modals';
+import { viewState } from '../states/view';
 
 interface Props {}
 
@@ -14,7 +14,7 @@ type form = {
 } & HTMLFormElement;
 
 export const AddOption = observer(({}: Props) => {
-  if (!modalsState.addOption) {
+  if (!viewState.addOption) {
     return null;
   }
   const _addCategory = (e: React.FormEvent) => {
@@ -29,9 +29,9 @@ export const AddOption = observer(({}: Props) => {
       currencysState.addOne(name, description);
     }
   };
-  const close = () => modalsState.showAddOption(false);
+  const close = () => viewState.showAddOption(false);
   return (
-    <Modal toggle={close} isOpen={modalsState.addOption}>
+    <Modal toggle={close} isOpen={viewState.addOption}>
       <Form onSubmit={_addCategory}>
         <ModalHeader toggle={close}>Modal title</ModalHeader>
         <ModalBody>

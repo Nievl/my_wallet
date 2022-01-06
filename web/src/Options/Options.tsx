@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { Button, ButtonGroup, Col, Row, Table } from 'reactstrap';
 import { categorysState } from '../states/category';
 import { currencysState } from '../states/currensy';
-import { modalsState } from '../states/modals';
+import { viewState } from '../states/view';
 import { AddOption } from './AddOption';
 
 export const Options = observer(() => {
@@ -18,7 +18,7 @@ export const Options = observer(() => {
           <Button color="primary" onClick={_loadCategory}>
             Запросить
           </Button>
-          <Button color="primary" onClick={() => modalsState.showAddOption(true)}>
+          <Button color="primary" onClick={() => viewState.showAddOption(true)}>
             Добавить
           </Button>
         </ButtonGroup>
@@ -35,7 +35,7 @@ export const Options = observer(() => {
               </tr>
             </thead>
             <tbody>
-              {categorysState.category.map((c) => (
+              {categorysState.list.map((c) => (
                 <tr key={c.id}>
                   <td>{c.id}</td>
                   <td>{c.name}</td>
@@ -47,7 +47,7 @@ export const Options = observer(() => {
                   </td>
                 </tr>
               ))}
-              {categorysState.category.length === 0 && (
+              {categorysState.list.length === 0 && (
                 <tr>
                   <td colSpan={4}>нет данных</td>
                 </tr>
@@ -66,7 +66,7 @@ export const Options = observer(() => {
               </tr>
             </thead>
             <tbody>
-              {currencysState.currency.map((c) => (
+              {currencysState.list.map((c) => (
                 <tr key={c.id}>
                   <th>{c.id}</th>
                   <td>{c.name}</td>
@@ -78,7 +78,7 @@ export const Options = observer(() => {
                   </td>
                 </tr>
               ))}
-              {currencysState.currency.length === 0 && (
+              {currencysState.list.length === 0 && (
                 <tr>
                   <td colSpan={4}>нет данных</td>
                 </tr>

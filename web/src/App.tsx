@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TransactionsList } from './Transactions/TransactionsList';
 import { Col, Nav, NavItem, NavLink, Row, TabContent, TabPane, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import { Options } from './Options/Options';
+import { ErrorsFeed } from './ErrorsFeed/ErrorsFeed';
+import { viewState } from './states/view';
 
 const App = () => {
   const [key, setKey] = useState('transactions');
-
+  useEffect(() => {
+    viewState.initialReq();
+  }, []);
   return (
     <Row style={{ maxWidth: '100vw' }}>
       <Col sm="10">
@@ -35,13 +39,7 @@ const App = () => {
         </TabContent>
       </Col>
       <Col sm="2">
-        <Toast>
-          <ToastHeader toggle={function noRefCheck() {}}>Toast title</ToastHeader>
-          <ToastBody>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.
-          </ToastBody>
-        </Toast>
+        <ErrorsFeed />
       </Col>
     </Row>
   );

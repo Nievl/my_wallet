@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { Iresult } from '../../dto/result';
+import { Iresult, IresultWithData } from '../../dto/result';
 import { ITransaction, TransactionRequest } from '../../dto/Transaction';
 import request from '../controllers';
 
@@ -29,8 +29,8 @@ class Transaction {
   }
   async upload(form: FormData) {
     const url = `/uploadcsv`;
-    const result = await request.post<ITransaction[]>({ url, body: form });
-    if (result) this.transactions = result;
+    const result = await request.post<IresultWithData<ITransaction[]>>({ url, body: form });
+    if (result?.result === 'ok') this.transactions = result.data;
   }
 }
 
