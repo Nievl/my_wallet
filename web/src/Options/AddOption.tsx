@@ -36,19 +36,19 @@ export const AddOption = observer(({}: Props) => {
         <ModalHeader toggle={close}>Modal title</ModalHeader>
         <ModalBody>
           <FormGroup>
+            <Label for="type">Тип</Label>
+            <select id="type" name="type" required>
+              <option value="category">category</option>
+              <option value="currency">currency</option>
+            </select>
+          </FormGroup>
+          <FormGroup>
             <Label for="name">Имя</Label>
             <Input id="name" name="name" placeholder="with a placeholder" type="text" required />
           </FormGroup>
           <FormGroup>
             <Label for="description">Описание</Label>
             <Input id="description" name="description" placeholder="password placeholder" type="text" />
-          </FormGroup>
-          <FormGroup>
-            <Label for="type">Тип</Label>
-            <select id="type" name="type" required>
-              <option value="category">category</option>
-              <option value="currency">currency</option>
-            </select>
           </FormGroup>
         </ModalBody>
         <ModalFooter>

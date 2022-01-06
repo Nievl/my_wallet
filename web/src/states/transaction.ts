@@ -1,9 +1,7 @@
 import { makeAutoObservable } from 'mobx';
-import { observer } from 'mobx-react-lite';
 import { Iresult } from '../../dto/result';
 import { ITransaction, TransactionRequest } from '../../dto/Transaction';
 import request from '../controllers';
-import { addOption, deleteOption } from '../controllers/options';
 
 class Transaction {
   transactions: ITransaction[] = [];
@@ -29,6 +27,11 @@ class Transaction {
     const result = await request.post<ITransaction[]>({ url: this.url, body: transaction });
     if (result) this.transactions = result;
   }
+  async upload(form: FormData) {
+    const url = `/uploadcsv`;
+    const result = await request.post<ITransaction[]>({ url, body: form });
+    if (result) this.transactions = result;
+  }
 }
 
-export const currencysState = new Transaction();
+export const transactionState = new Transaction();

@@ -13,8 +13,8 @@ export const Options = observer(() => {
 
   return (
     <div>
-      <Col xs={4}>
-        <ButtonGroup className="m-3">
+      <Col xs={4} className="m-3">
+        <ButtonGroup>
           <Button color="primary" onClick={_loadCategory}>
             Запросить
           </Button>
@@ -26,7 +26,7 @@ export const Options = observer(() => {
       <Row>
         <Col xs="4">
           <h4>Category</h4>
-          <Table bordered hover className="m-3">
+          <Table bordered hover>
             <thead>
               <tr>
                 <th>id</th>
@@ -57,7 +57,7 @@ export const Options = observer(() => {
         </Col>
         <Col xs="4">
           <h4>Currensy</h4>
-          <Table bordered hover className="m-3">
+          <Table bordered hover>
             <thead>
               <tr>
                 <td>id</td>

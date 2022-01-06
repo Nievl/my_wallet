@@ -4,7 +4,7 @@ type IrequestGet = {
   url: string;
 };
 type IrequestWithPost = {
-  body: Record<string, unknown>;
+  body: Record<string, unknown> | FormData;
 } & IrequestGet;
 type IrequestWithDelete = {
   body?: Record<string, unknown>;
@@ -19,7 +19,7 @@ const get = async <T>({ url }: IrequestGet) => {
   errorsState.add(result.statusText);
 };
 const post = async <T>({ url, body }: IrequestWithPost) => {
-  const _body = JSON.stringify(body);
+  const _body = body instanceof FormData ? body : JSON.stringify(body);
   const result = await fetch(url, { credentials: 'same-origin', body: _body, method: 'POST' });
   if (result.ok) {
     const resultJson = await result.json();

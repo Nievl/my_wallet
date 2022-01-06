@@ -1,9 +1,9 @@
-import { ITransaction } from '../../dto/Transaction';
 import { usePagination, useSortBy, useTable } from 'react-table';
+import { observer } from 'mobx-react-lite';
+import { transactionState } from '../states/transaction';
+import { Button, Card, CardBody, CardTitle, Col, Form, FormGroup, Input, InputGroup } from 'reactstrap';
 
-interface Props {
-  transactions: ITransaction[];
-}
+interface Props {}
 
 const columns = [
   {
@@ -28,7 +28,8 @@ const columns = [
   },
 ];
 
-export const TransactionsList = ({ transactions }: Props) => {
+export const TransactionsList = observer(({}: Props) => {
+  const transactions = transactionState.transactions;
   const tableInstance = useTable(
     // @ts-ignore
     { columns, data: transactions, initialState: { pageIndex: 1 } },
@@ -52,9 +53,34 @@ export const TransactionsList = ({ transactions }: Props) => {
     setPageSize,
     state: { pageIndex, pageSize },
   } = tableInstance;
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const csv = ((e.target as HTMLFormElement)[0] as HTMLInputElement).files?.[0];
+    if (csv) {
+      let formData = new FormData();
+      formData.append('file', csv);
+      transactionState.upload(formData);
+    }
+  };
   return (
-    // apply the table props
     <>
+      <h4>Операции</h4>
+      <Col xs={6}>
+        <Card body className="m-3">
+          <CardTitle>Загрузка CSV</CardTitle>
+          <CardBody>
+            <Form onSubmit={onSubmit}>
+              <InputGroup>
+                <Input type="file" id="input"></Input>
+                <Button color="primary" type="submit">
+                  Загрузить csv
+                </Button>
+              </InputGroup>
+            </Form>
+          </CardBody>
+        </Card>
+      </Col>
       <table {...getTableProps()} className="table table-striped table-bordered ">
         <thead>
           {
@@ -170,4 +196,4 @@ export const TransactionsList = ({ transactions }: Props) => {
       </pre>
     </>
   );
-};
+});
