@@ -11,8 +11,8 @@ class Errors {
     makeAutoObservable(this);
   }
 
-  add(message: string) {
-    this.errors.push({ id: Date.now(), message });
+  add(message: string[]) {
+    this.errors.push({ id: Date.now(), message: message.join('\n') });
   }
   remove(id: number) {
     this.errors = this.errors.filter((m) => !(m.id === id));

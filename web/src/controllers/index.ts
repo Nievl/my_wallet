@@ -12,29 +12,44 @@ type IrequestWithDelete = {
 
 const get = async <T>({ url }: IrequestGet) => {
   const result = await fetch(url, { credentials: 'same-origin' });
-  if (result.ok) {
+  try {
     const resultJson = await result.json();
-    if (resultJson) return resultJson as T;
+    if (result.ok) {
+      if (resultJson) return resultJson as T;
+    } else {
+      throw Error(resultJson.message);
+    }
+  } catch (error) {
+    errorsState.add([result.statusText, (error as Error).message]);
   }
-  errorsState.add(result.statusText);
 };
 const post = async <T>({ url, body }: IrequestWithPost) => {
   const _body = body instanceof FormData ? body : JSON.stringify(body);
   const result = await fetch(url, { credentials: 'same-origin', body: _body, method: 'POST' });
-  if (result.ok) {
+  try {
     const resultJson = await result.json();
-    if (resultJson) return resultJson as T;
+    if (result.ok) {
+      if (resultJson) return resultJson as T;
+    } else {
+      throw Error(resultJson.message);
+    }
+  } catch (error) {
+    errorsState.add([result.statusText, (error as Error).message]);
   }
-  errorsState.add(result.statusText);
 };
 const remove = async <T>({ url, body }: IrequestWithDelete) => {
   const _body = body ? JSON.stringify(body) : null;
   const result = await fetch(url, { credentials: 'same-origin', body: _body, method: 'DELETE' });
-  if (result.ok) {
+  try {
     const resultJson = await result.json();
-    if (resultJson) return resultJson as T;
+    if (result.ok) {
+      if (resultJson) return resultJson as T;
+    } else {
+      throw Error(resultJson.message);
+    }
+  } catch (error) {
+    errorsState.add([result.statusText, (error as Error).message]);
   }
-  errorsState.add(result.statusText);
 };
 
 const request = {
