@@ -18,7 +18,6 @@ export const AddTransaction = observer(({}: Props) => {
   const _addTransaction = (e: React.FormEvent) => {
     e.preventDefault();
     const requestObj: TransactionRequest = {
-      account: (e.target as form).account.value,
       category: parseInt((e.target as form).category.value),
       amount: parseFloat((e.target as form).amount.value),
       currency: parseInt((e.target as form).currency.value),
@@ -34,10 +33,6 @@ export const AddTransaction = observer(({}: Props) => {
       <Form onSubmit={_addTransaction}>
         <ModalHeader toggle={close}>Add Transaction</ModalHeader>
         <ModalBody>
-          <FormGroup>
-            <Label for="account">Аккаунт</Label>
-            <Input id="account" name="account" placeholder="with a placeholder" type="text" required />
-          </FormGroup>
           <FormGroup>
             <Label for="category">Категория</Label>
             <Input id="category" name="category" placeholder="with a placeholder" type="select" required>

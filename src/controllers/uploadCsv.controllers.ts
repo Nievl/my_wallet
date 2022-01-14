@@ -1,5 +1,5 @@
 import multer from 'multer';
-import { Post, UploadedFile, JsonController, Get, Param } from 'routing-controllers';
+import { Post, UploadedFile, JsonController, Get, Param, QueryParam } from 'routing-controllers';
 import { Service } from 'typedi';
 import UploadService from '../services/upload.service';
 
@@ -10,9 +10,15 @@ export class UploadCsv {
 
   @Post('/')
   public uploadCsv(
-    @UploadedFile('file', { options: { storage: multer.memoryStorage() } }) file: Express.Multer.File
+    @UploadedFile('file', { options: { storage: multer.memoryStorage() } }) file: Express.Multer.File,
+    @QueryParam('doubles')
+    doubles: boolean
   ): Promise<object> {
-    return this.uploadService.uploadCsv(file);
+    if (doubles) {
+      return this.uploadService.uploadCsvAndFindDoubles(file);
+    } else {
+      return this.uploadService.uploadCsv(file);
+    }
   }
   @Get('/:path')
   public uploadFromPath(@Param('path') path: string): Promise<object> {

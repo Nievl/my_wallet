@@ -19,9 +19,26 @@ export default class UploadService {
   public async uploadCsv(file: Express.Multer.File): Promise<object> {
     const fileArray = file.buffer.toString().trim();
     const parsedData: ParsedTransaction[] = await neatCsv(fileArray, { separator: config.csvSeparator });
+
     const correctedData = await this.correctSumm(parsedData);
+
+    const doubles = await this.findDoubles(correctedData);
+    if (Object.keys(doubles).length !== 0) {
+      throw new ServiceException(ExceptionTypes.BadRequest, `file has doubles  \n ${Object.keys(doubles).join(',')} `);
+    }
+
     await getRepository(Transaction).save(correctedData);
     const data = await getRepository(Transaction).find({ relations: ['currency', 'category'] });
+    return { result: 'ok', data };
+  }
+  public async uploadCsvAndFindDoubles(file: Express.Multer.File): Promise<object> {
+    const fileArray = file.buffer.toString().trim();
+    const parsedData: ParsedTransaction[] = await neatCsv(fileArray, { separator: config.csvSeparator });
+
+    const correctedData = await this.correctSumm(parsedData);
+
+    const data = await this.findDoubles(correctedData);
+
     return { result: 'ok', data };
   }
   public async uploadFromPath(path: string): Promise<object> {
@@ -51,7 +68,6 @@ export default class UploadService {
         throw new ServiceException(ExceptionTypes.NotFound, `Not found category ${t.category}`);
       }
 
-      _transaction.account = t.account;
       _transaction.amount = parseInt(t.amount.replace(',', ''));
       _transaction.category = category;
       _transaction.converted_amount = parseInt(t['converted amount'].replace(',', ''));
@@ -65,5 +81,23 @@ export default class UploadService {
       return _transaction;
     });
     return result;
+  }
+  private async findDoubles(list: Transaction[]) {
+    // const hashes = await getRepository(Transaction).createQueryBuilder().select('hash').execute();
+    const counts = {};
+    const doubles: { [key: string]: Transaction[] } = {};
+    list.forEach(({ hash }) => {
+      if (hash in counts) {
+        counts[hash] += 1;
+      } else {
+        counts[hash] = 1;
+      }
+    });
+    Object.entries(counts).forEach(([hash, count]: [string, number]) => {
+      if (count > 1) {
+        doubles[hash] = list.filter((t) => t.hash === hash);
+      }
+    });
+    return doubles;
   }
 }

@@ -8,9 +8,6 @@ export class Transaction {
   id: number;
 
   @Column()
-  account: string;
-
-  @Column()
   amount: number;
 
   @ManyToOne(() => Category, (category) => category.name)

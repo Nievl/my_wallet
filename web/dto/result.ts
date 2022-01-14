@@ -1,7 +1,4 @@
-export interface Iresult {
-  result: 'ok';
-}
-export interface IresultWithData<T> {
-  result: 'ok';
-  data: T;
-}
+export type Iresult = IresultSuccess | IresultError;
+export type IresultWithData<T> = { data: T } & Iresult;
+export type IresultSuccess = { result: 'ok' };
+export type IresultError = { result: 'error'; description: string };

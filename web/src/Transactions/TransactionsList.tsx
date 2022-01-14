@@ -1,7 +1,7 @@
 import { usePagination, useSortBy, useTable } from 'react-table';
 import { observer } from 'mobx-react-lite';
 import { transactionState } from '../states/transaction';
-import { Button, Card, CardBody, CardTitle, Col, Form, FormGroup, Input, InputGroup, Row } from 'reactstrap';
+import { Button, Card, CardBody, CardTitle, Col, Form, FormGroup, Input, InputGroup, Label, Row } from 'reactstrap';
 import { viewState } from '../states/view';
 import { AddTransaction } from './AddTransaction';
 
@@ -59,10 +59,11 @@ export const TransactionsList = observer(({}: Props) => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const csv = ((e.target as HTMLFormElement)[0] as HTMLInputElement).files?.[0];
+    const doubles = (e.target as HTMLFormElement).doubles.checked;
     if (csv) {
       let formData = new FormData();
       formData.append('file', csv);
-      transactionState.upload(formData);
+      transactionState.upload(formData, doubles);
     }
   };
   return (
@@ -79,6 +80,12 @@ export const TransactionsList = observer(({}: Props) => {
                   <Button color="primary" type="submit">
                     Загрузить csv
                   </Button>
+                </InputGroup>
+                <InputGroup className="mt-3">
+                  <Input type="checkbox" id="doubles" className="mr-2"></Input>
+                  <Label for="doubles" className="ml-2">
+                    поиск дубля
+                  </Label>
                 </InputGroup>
               </Form>
             </CardBody>

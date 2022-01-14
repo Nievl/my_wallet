@@ -12,7 +12,7 @@ import { Category } from '../models/entity/Category';
 @Service()
 export default class TransactionService {
   public getAll(): Promise<Transaction[]> {
-    return getRepository(Transaction).find({ relations:  ['currency', 'category'] });
+    return getRepository(Transaction).find({ relations: ['currency', 'category'] });
   }
   public async addOne(transaction: TransactionRequest): Promise<Transaction[]> {
     const _transaction = new Transaction();
@@ -25,7 +25,6 @@ export default class TransactionService {
       throw new ServiceException(ExceptionTypes.NotFound, `Not found category ${transaction.category}`);
     }
 
-    _transaction.account = transaction.account;
     _transaction.amount = transaction.amount;
     _transaction.category = category;
     _transaction.converted_amount = transaction.converted_amount;

@@ -27,10 +27,16 @@ class Transaction {
     const result = await request.post<ITransaction[]>({ url: this.url, body: transaction });
     if (result) this.transactions = result;
   }
-  async upload(form: FormData) {
-    const url = `/uploadcsv`;
+  async upload(form: FormData, isFindDoubles: boolean) {
+    const url = `/uploadcsv?doubles=${isFindDoubles}`;
     const result = await request.post<IresultWithData<ITransaction[]>>({ url, body: form });
-    if (result?.result === 'ok') this.transactions = result.data;
+    if (result?.result === 'ok') {
+      if (isFindDoubles) {
+        console.log(result.data);
+      } else {
+        this.transactions = result.data;
+      }
+    }
   }
 }
 
