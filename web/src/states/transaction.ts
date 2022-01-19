@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { Iresult, IresultWithData } from '../../dto/result';
-import { ITransaction, TransactionRequest } from '../../dto/Transaction';
+import { ITransaction, TransactionRequest, uploadOptions } from '../../dto/Transaction';
 import request from '../controllers';
 
 class Transaction {
@@ -27,14 +27,16 @@ class Transaction {
     const result = await request.post<ITransaction[]>({ url: this.url, body: transaction });
     if (result) this.transactions = result;
   }
-  async upload(form: FormData, isFindDoubles: boolean) {
-    const url = `/uploadcsv?doubles=${isFindDoubles}`;
+  async upload(form: FormData, option: uploadOptions) {
+    const url = `/uploadcsv?option=${option}`;
     const result = await request.post<IresultWithData<ITransaction[]>>({ url, body: form });
     if (result?.result === 'ok') {
-      if (isFindDoubles) {
+      if (option === 'doubles') {
         console.log(result.data);
-      } else {
+      } else if (option === 'base') {
         this.transactions = result.data;
+      } else if (option === 'save') {
+        alert('uploaded');
       }
     }
   }

@@ -1,9 +1,10 @@
 import { usePagination, useSortBy, useTable } from 'react-table';
 import { observer } from 'mobx-react-lite';
 import { transactionState } from '../states/transaction';
-import { Button, Card, CardBody, CardTitle, Col, Form, FormGroup, Input, InputGroup, Label, Row } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import { viewState } from '../states/view';
 import { AddTransaction } from './AddTransaction';
+import { Upload } from './Upload';
 
 interface Props {}
 
@@ -42,7 +43,6 @@ export const TransactionsList = observer(({}: Props) => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
     prepareRow,
     page,
     canPreviousPage,
@@ -56,41 +56,11 @@ export const TransactionsList = observer(({}: Props) => {
     state: { pageIndex, pageSize },
   } = tableInstance;
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const csv = ((e.target as HTMLFormElement)[0] as HTMLInputElement).files?.[0];
-    const doubles = (e.target as HTMLFormElement).doubles.checked;
-    if (csv) {
-      let formData = new FormData();
-      formData.append('file', csv);
-      transactionState.upload(formData, doubles);
-    }
-  };
   return (
     <>
       <h4>Операции</h4>
       <Row className="m-3">
-        <Col xs={6}>
-          <Card body>
-            <CardTitle>Загрузка CSV</CardTitle>
-            <CardBody>
-              <Form onSubmit={onSubmit}>
-                <InputGroup>
-                  <Input type="file" id="input"></Input>
-                  <Button color="primary" type="submit">
-                    Загрузить csv
-                  </Button>
-                </InputGroup>
-                <InputGroup className="mt-3">
-                  <Input type="checkbox" id="doubles" className="mr-2"></Input>
-                  <Label for="doubles" className="ml-2">
-                    поиск дубля
-                  </Label>
-                </InputGroup>
-              </Form>
-            </CardBody>
-          </Card>
-        </Col>
+        <Upload />
         <Col xs={6}>
           <Button color="primary" onClick={() => viewState.showAddTransaction(true)}>
             Добавить

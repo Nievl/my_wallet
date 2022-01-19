@@ -9,7 +9,7 @@ import { viewState } from '../states/view';
 
 interface Props {}
 
-type form = { [kei in keyof TransactionRequest]: { value: string } } & HTMLFormElement;
+type form = { [key in keyof TransactionRequest]: { value: string } } & HTMLFormElement;
 
 export const AddTransaction = observer(({}: Props) => {
   if (!viewState.addTransaction) {

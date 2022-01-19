@@ -1,6 +1,9 @@
 import multer from 'multer';
 import { Post, UploadedFile, JsonController, Get, Param, QueryParam } from 'routing-controllers';
 import { Service } from 'typedi';
+import { uploadOptions } from '../../web/dto/Transaction';
+import { ExceptionTypes } from '../models/enums/exceptionTypes';
+import ServiceException from '../models/exceptions/serviceException';
 import UploadService from '../services/upload.service';
 
 @Service()
@@ -11,13 +14,17 @@ export class UploadCsv {
   @Post('/')
   public uploadCsv(
     @UploadedFile('file', { options: { storage: multer.memoryStorage() } }) file: Express.Multer.File,
-    @QueryParam('doubles')
-    doubles: boolean
+    @QueryParam('option')
+    option: uploadOptions
   ): Promise<object> {
-    if (doubles) {
+    if (option === 'doubles') {
       return this.uploadService.uploadCsvAndFindDoubles(file);
-    } else {
+    } else if (option === 'base') {
       return this.uploadService.uploadCsv(file);
+    } else if (option === 'save') {
+      return this.uploadService.UploadAndSaveOnDisk(file);
+    } else {
+      throw new ServiceException(ExceptionTypes.BadRequest, `option param is not defined`);
     }
   }
   @Get('/:path')

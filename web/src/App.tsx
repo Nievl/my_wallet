@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { TransactionsList } from './Transactions/TransactionsList';
-import { Col, Nav, NavItem, NavLink, Row, TabContent, TabPane, Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap';
 import { Options } from './Options/Options';
 import { ErrorsFeed } from './ErrorsFeed/ErrorsFeed';
 import { viewState } from './states/view';

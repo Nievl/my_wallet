@@ -15,3 +15,5 @@ export type TransactionRequest = Omit<ITransaction, 'id' | 'dateChange' | 'hash'
   category: number;
   currency: number;
 };
+
+export type uploadOptions = 'doubles' | 'base' | 'save';
