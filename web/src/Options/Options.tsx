@@ -1,13 +1,12 @@
 import { observer } from 'mobx-react-lite';
 import { Button, ButtonGroup, Col, Row, Table } from 'reactstrap';
 import { categorysState } from '../states/category';
-import { currencysState } from '../states/currensy';
+import { currenciesState } from '../states/currency';
 import { viewState } from '../states/view';
-import { AddOption } from './AddOption';
 
 export const Options = observer(() => {
   const _loadCategory = () => {
-    currencysState.getAll();
+    currenciesState.getAll();
     categorysState.getAll();
   };
 
@@ -31,20 +30,13 @@ export const Options = observer(() => {
               <tr>
                 <th>id</th>
                 <th>Имя</th>
-                <th>Описание</th>
               </tr>
             </thead>
             <tbody>
               {categorysState.list.map((c) => (
-                <tr key={c.id}>
-                  <td>{c.id}</td>
-                  <td>{c.name}</td>
-                  <td>{c.description}</td>
-                  <td>
-                    <Button color="danger" onClick={() => categorysState.remove(c.id)}>
-                      x
-                    </Button>
-                  </td>
+                <tr key={c.uid}>
+                  <td>{c.uid}</td>
+                  <td>{c.NAME}</td>
                 </tr>
               ))}
               {categorysState.list.length === 0 && (
@@ -62,23 +54,16 @@ export const Options = observer(() => {
               <tr>
                 <td>id</td>
                 <th>Имя</th>
-                <th>Описание</th>
               </tr>
             </thead>
             <tbody>
-              {currencysState.list.map((c) => (
-                <tr key={c.id}>
-                  <th>{c.id}</th>
-                  <td>{c.name}</td>
-                  <td>{c.description}</td>
-                  <td>
-                    <Button color="danger" onClick={() => currencysState.remove(c.id)}>
-                      x
-                    </Button>
-                  </td>
+              {currenciesState.list.map((c) => (
+                <tr key={c.uid}>
+                  <th>{c.uid}</th>
+                  <td>{c.NAME}</td>
                 </tr>
               ))}
-              {currencysState.list.length === 0 && (
+              {currenciesState.list.length === 0 && (
                 <tr>
                   <td colSpan={4}>нет данных</td>
                 </tr>
@@ -86,7 +71,6 @@ export const Options = observer(() => {
             </tbody>
           </Table>
         </Col>
-        <AddOption />
       </Row>
     </div>
   );

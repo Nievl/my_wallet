@@ -36,6 +36,9 @@ export default class UploadService {
     const data = await getRepository(Transaction).find({ relations: ['currency', 'category'] });
     return { result: 'ok', data };
   }
+  /**
+   * @deprecated
+   */
   public async uploadCsvAndFindDoubles(file: Express.Multer.File): Promise<object> {
     const fileArray = file.buffer.toString().trim();
     const parsedData: ParsedTransaction[] = await neatCsv(fileArray, { separator: config.csvSeparator });
@@ -46,6 +49,9 @@ export default class UploadService {
 
     return { result: 'ok', data };
   }
+  /**
+   * @deprecated
+   */
   public async uploadFromPath(path: string): Promise<object> {
     try {
       const file = (await readFile(path, { encoding: 'utf-8' })).trim();
@@ -56,6 +62,9 @@ export default class UploadService {
       throw new ServiceException(ExceptionTypes.BadRequest, `Incorrect path format \n ${error.message} `);
     }
   }
+  /**
+   * @deprecated
+   */
   public async UploadAndSaveOnDisk(file: Express.Multer.File): Promise<object> {
     const fileArray = file.buffer.toString().trim();
     const parsedData: ParsedTransaction[] = await neatCsv(fileArray, { separator: config.csvSeparator });

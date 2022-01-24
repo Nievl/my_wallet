@@ -4,37 +4,39 @@ import { transactionState } from '../states/transaction';
 import { Button, Col, Row } from 'reactstrap';
 import { viewState } from '../states/view';
 import { AddTransaction } from './AddTransaction';
-import { Upload } from './Upload';
+import { IinOutCome } from '../../dto/Transaction';
 
 interface Props {}
 
-const columns = [
+const columns: {
+  Header: string;
+  accessor: keyof IinOutCome;
+}[] = [
   {
     Header: 'date',
-    accessor: 'dateCreate',
+    accessor: 'UTIME',
   },
   {
     Header: 'category',
-    accessor: 'category.name',
+    accessor: 'NAME',
   },
   {
     Header: 'amount',
-    accessor: 'amount',
+    accessor: 'AMOUNT_ACCOUNT',
   },
   {
     Header: 'currency',
-    accessor: 'currency.name',
+    accessor: 'currencyUid',
   },
   {
     Header: 'description',
-    accessor: 'description',
+    accessor: 'ZCONTENT',
   },
 ];
 
 export const TransactionsList = observer(({}: Props) => {
   const transactions = transactionState.transactions;
   const tableInstance = useTable(
-    // @ts-ignore
     { columns, data: transactions, initialState: { pageIndex: 0 } },
     useSortBy,
     usePagination
@@ -60,7 +62,6 @@ export const TransactionsList = observer(({}: Props) => {
     <>
       <h4>Операции</h4>
       <Row className="m-3">
-        <Upload />
         <Col xs={6}>
           <Button color="primary" onClick={() => viewState.showAddTransaction(true)}>
             Добавить

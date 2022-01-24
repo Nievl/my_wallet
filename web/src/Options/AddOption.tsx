@@ -1,8 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { IOptions } from '../controllers/options';
-import { categorysState } from '../states/category';
-import { currencysState } from '../states/currensy';
 import { viewState } from '../states/view';
 
 interface Props {}
@@ -23,10 +21,10 @@ export const AddOption = observer(({}: Props) => {
     const description = (e.target as form).description.value;
     const type = (e.target as form).type.value;
     if (type === 'category') {
-      categorysState.addOne(name, description);
+      // categorysState.addOne(name, description);
     }
     if (type === 'currency') {
-      currencysState.addOne(name, description);
+      // currenciesState.addOne(name, description);
     }
   };
   const close = () => viewState.showAddOption(false);

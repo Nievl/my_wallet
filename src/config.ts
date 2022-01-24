@@ -8,5 +8,6 @@ export default {
   PGPORT: 5434,
   PGDATABASE: 'postgres',
   PGPASSWORD: 'postgres',
-  sqlitePath: 'myWallet.db',
+  sqlitePath1: 'myWallet.db',
+  sqlitePath2: 'money_android.sqlite',
 };

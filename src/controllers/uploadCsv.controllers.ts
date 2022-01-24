@@ -10,13 +10,16 @@ import UploadService from '../services/upload.service';
 @JsonController('/uploadcsv')
 export class UploadCsv {
   constructor(public uploadService: UploadService) {}
-
+  /**
+ * @deprecated
+ */
   @Post('/')
   public uploadCsv(
     @UploadedFile('file', { options: { storage: multer.memoryStorage() } }) file: Express.Multer.File,
     @QueryParam('option')
     option: uploadOptions
   ): Promise<object> {
+    throw new ServiceException(ExceptionTypes.BadRequest, `upload csv is deprecated`);
     if (option === 'doubles') {
       return this.uploadService.uploadCsvAndFindDoubles(file);
     } else if (option === 'base') {
@@ -27,8 +30,12 @@ export class UploadCsv {
       throw new ServiceException(ExceptionTypes.BadRequest, `option param is not defined`);
     }
   }
+  /**
+ * @deprecated
+ */
   @Get('/:path')
   public uploadFromPath(@Param('path') path: string): Promise<object> {
+    throw new ServiceException(ExceptionTypes.BadRequest, `upload csv is deprecated`);
     return this.uploadService.uploadFromPath(path);
   }
 }

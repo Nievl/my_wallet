@@ -16,14 +16,6 @@ class Currency {
     const result = await getOption<ICurrency>('currency');
     if (result) this.list = result;
   }
-  async remove(id: number) {
-    const result = await deleteOption<ICurrency>(id, 'currency');
-    if (result) this.list = result;
-  }
-  async addOne(name: string, description: string) {
-    const result = await addOption<ICurrency>(name, description, 'currency');
-    if (result) this.list = result;
-  }
 }
 
-export const currencysState = new Currency();
+export const currenciesState = new Currency();

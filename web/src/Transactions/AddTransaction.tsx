@@ -1,15 +1,15 @@
 import { observer } from 'mobx-react-lite';
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { TransactionRequest } from '../../dto/Transaction';
+import { inOutComeRequest } from '../../dto/Transaction';
 import { categorysState } from '../states/category';
-import { currencysState } from '../states/currensy';
+import { currenciesState } from '../states/currency';
 import { transactionState } from '../states/transaction';
 
 import { viewState } from '../states/view';
 
 interface Props {}
 
-type form = { [key in keyof TransactionRequest]: { value: string } } & HTMLFormElement;
+type form = { [key in keyof inOutComeRequest]: { value: string } } & HTMLFormElement;
 
 export const AddTransaction = observer(({}: Props) => {
   if (!viewState.addTransaction) {
@@ -17,13 +17,13 @@ export const AddTransaction = observer(({}: Props) => {
   }
   const _addTransaction = (e: React.FormEvent) => {
     e.preventDefault();
-    const requestObj: TransactionRequest = {
-      category: parseInt((e.target as form).category.value),
+    const requestObj: inOutComeRequest = {
+      category: (e.target as form).category.value,
       amount: parseFloat((e.target as form).amount.value),
-      currency: parseInt((e.target as form).currency.value),
-      converted_amount: parseFloat((e.target as form).converted_amount.value),
-      dateCreate: new Date((e.target as form).dateCreate.value),
+      currency: (e.target as form).currency.value,
+      date: new Date((e.target as form).dateCreate.value).getTime(),
       description: (e.target as form).description.value,
+      DO_TYPE: '1',
     };
     transactionState.addOne(requestObj);
   };
@@ -37,8 +37,8 @@ export const AddTransaction = observer(({}: Props) => {
             <Label for="category">Категория</Label>
             <Input id="category" name="category" placeholder="with a placeholder" type="select" required>
               {categorysState.list.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
+                <option key={c.uid} value={c.uid}>
+                  {c.NAME}
                 </option>
               ))}
             </Input>
@@ -50,9 +50,9 @@ export const AddTransaction = observer(({}: Props) => {
           <FormGroup>
             <Label for="currency">Валюта</Label>
             <Input id="currency" name="currency" placeholder="with a placeholder" type="select" required>
-              {currencysState.list.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
+              {currenciesState.list.map((c) => (
+                <option key={c.uid} value={c.uid}>
+                  {c.NAME}
                 </option>
               ))}
             </Input>

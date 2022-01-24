@@ -16,14 +16,6 @@ class Category {
     const result = await getOption<ICategory>('category');
     if (result) this.list = result;
   }
-  async remove(id: number) {
-    const result = await deleteOption<ICategory>(id, 'category');
-    if (result) this.list = result;
-  }
-  async addOne(name: string, description: string) {
-    const result = await addOption<ICategory>(name, description, 'category');
-    if (result) this.list = result;
-  }
 }
 
 export const categorysState = new Category();

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { categorysState } from './category';
-import { currencysState } from './currensy';
+import { currenciesState } from './currency';
 import { transactionState } from './transaction';
 
 class View {
@@ -19,7 +19,7 @@ class View {
   }
   initialReq() {
     categorysState.getAll();
-    currencysState.getAll();
+    currenciesState.getAll();
     transactionState.getAll();
   }
 }

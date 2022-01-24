@@ -2,6 +2,9 @@ import { Button, Card, CardBody, CardTitle, Col, Form, FormGroup, Input, InputGr
 import { uploadOptions } from '../../dto/Transaction';
 import { transactionState } from '../states/transaction';
 
+/**
+ * @deprecated
+ */
 export const Upload = () => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -10,7 +13,7 @@ export const Upload = () => {
     if (csv) {
       let formData = new FormData();
       formData.append('file', csv);
-      transactionState.upload(formData, doubles);
+      // transactionState.upload(formData, doubles);
     }
   };
   return (

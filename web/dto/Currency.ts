@@ -1,6 +1,3 @@
-export interface ICurrency {
-  id: number;
-  name: string;
-  description: string | null;
-}
-export type CurrencyRequest = Omit<ICurrency, 'id'>;
+import { Icurrency } from '../../src/models/interfaces/Icurrency';
+
+export type ICurrency = Icurrency;

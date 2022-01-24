@@ -1,7 +1,3 @@
-export interface ICategory {
-  id: number;
-  name: string;
-  description: string | null;
-}
+import { Icategory } from '../../src/models/interfaces/Icategory';
 
-export type CategoryRequest = Omit<ICategory, 'id'>;
+export type ICategory = Icategory;
