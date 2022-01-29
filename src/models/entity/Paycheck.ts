@@ -20,6 +20,9 @@ export class Paycheck {
   @Column()
   amount: number;
 
+  @Column()
+  date: number;
+
   @Column({ nullable: true, type: 'text' })
   description: string | null;
 }

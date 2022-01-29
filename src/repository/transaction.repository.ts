@@ -6,7 +6,7 @@ import { IinOutCome, IinOutComeDB } from '../models/interfaces/Itransaction';
 export default class TransactionRepository {
   public getAll(): Promise<IinOutCome[]> {
     return getConnection('inoutcomes').query(
-      `
+    `
     SELECT
       i.uid,
       utime,
@@ -18,13 +18,14 @@ export default class TransactionRepository {
     FROM 
       INOUTCOME i
     INNER JOIN ZCATEGORY z 
-    ON z.ID = i.ctgUid 
+    ON z.ID = i.ctgUid
+    ORDER BY UTIME
     `
     );
   }
   public findOne(uid: string): Promise<[IinOutCome]> {
     return getConnection('inoutcomes').query(
-      `
+    `
     SELECT
       i.uid,
       utime,
@@ -44,7 +45,7 @@ export default class TransactionRepository {
   }
   public remove(uid: string) {
     return getConnection('inoutcomes').query(
-      `
+    `
     DELETE FROM 
       INOUTCOME i
     WHERE

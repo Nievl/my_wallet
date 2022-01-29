@@ -4,6 +4,37 @@ import { Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap
 import { Options } from './Options/Options';
 import { ErrorsFeed } from './ErrorsFeed/ErrorsFeed';
 import { viewState } from './states/view';
+import { PaycheckList } from './Paychecks/PaycheckList';
+import { CompanyList } from './Company/CompanyList';
+import { SalaryList } from './Salary/SalaryList';
+
+const tabs = [
+  {
+    key: 'transactions',
+    name: 'Операции',
+    component: <TransactionsList />,
+  },
+  {
+    key: 'paychecks',
+    name: 'Платежки',
+    component: <PaycheckList />,
+  },
+  {
+    key: 'company',
+    name: 'Компании',
+    component: <CompanyList />,
+  },
+  {
+    key: 'salary',
+    name: 'Зарплаты',
+    component: <SalaryList />,
+  },
+  {
+    key: 'options',
+    name: 'Настройки',
+    component: <Options />,
+  },
+];
 
 const App = () => {
   const [key, setKey] = useState('transactions');
@@ -14,28 +45,22 @@ const App = () => {
     <Row style={{ maxWidth: '100vw' }}>
       <Col sm="10">
         <Nav tabs>
-          <NavItem>
-            <NavLink onClick={() => setKey('transactions')}>Операции</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink onClick={() => setKey('options')}>Настройки</NavLink>
-          </NavItem>
+          {tabs.map((tab) => (
+            <NavItem>
+              <NavLink onClick={() => setKey(tab.key)}>{tab.name}</NavLink>
+            </NavItem>
+          ))}
         </Nav>
         <TabContent activeTab={key}>
-          <TabPane tabId="transactions">
-            <Row>
-              <Col sm="12" className="m-3">
-                <TransactionsList />
-              </Col>
-            </Row>
-          </TabPane>
-          <TabPane tabId="options">
-            <Row>
-              <Col sm="12" className="m-3">
-                <Options />
-              </Col>
-            </Row>
-          </TabPane>
+          {tabs.map((tab) => (
+            <TabPane tabId={tab.key}>
+              <Row>
+                <Col sm="12" className="m-3">
+                  {tab.component}
+                </Col>
+              </Row>
+            </TabPane>
+          ))}
         </TabContent>
       </Col>
       <Col sm="2">

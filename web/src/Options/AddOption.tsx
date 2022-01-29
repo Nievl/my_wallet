@@ -11,6 +11,9 @@ type form = {
   type: { value: IOptions };
 } & HTMLFormElement;
 
+/**
+ * @deprecated
+ */
 export const AddOption = observer(({}: Props) => {
   if (!viewState.addOption) {
     return null;

@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { inOutComeRequest } from '../../dto/Transaction';
-import { categorysState } from '../states/category';
-import { currenciesState } from '../states/currency';
-import { transactionState } from '../states/transaction';
+import { CategorysState } from '../states/category.state';
+import { CurrenciesState } from '../states/currency.state';
+import { TransactionState } from '../states/transaction.state';
 
 import { viewState } from '../states/view';
 
@@ -25,7 +25,7 @@ export const AddTransaction = observer(({}: Props) => {
       description: (e.target as form).description.value,
       DO_TYPE: '1',
     };
-    transactionState.addOne(requestObj);
+    TransactionState.addOne(requestObj);
   };
   const close = () => viewState.showAddTransaction(false);
   return (
@@ -36,7 +36,7 @@ export const AddTransaction = observer(({}: Props) => {
           <FormGroup>
             <Label for="category">Категория</Label>
             <Input id="category" name="category" placeholder="with a placeholder" type="select" required>
-              {categorysState.list.map((c) => (
+              {CategorysState.list.map((c) => (
                 <option key={c.uid} value={c.uid}>
                   {c.NAME}
                 </option>
@@ -50,7 +50,7 @@ export const AddTransaction = observer(({}: Props) => {
           <FormGroup>
             <Label for="currency">Валюта</Label>
             <Input id="currency" name="currency" placeholder="with a placeholder" type="select" required>
-              {currenciesState.list.map((c) => (
+              {CurrenciesState.list.map((c) => (
                 <option key={c.uid} value={c.uid}>
                   {c.NAME}
                 </option>

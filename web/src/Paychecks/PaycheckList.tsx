@@ -1,37 +1,36 @@
 import { Column } from 'react-table';
 import { observer } from 'mobx-react-lite';
-import { TransactionState } from '../states/transaction.state';
 import { Button, Col, Row } from 'reactstrap';
 import { viewState } from '../states/view';
-import { AddTransaction } from './AddTransaction';
-import { IinOutCome } from '../../dto/Transaction';
+import { IPaycheck } from '../../dto/Paycheck';
+import { PaycheckState } from '../states/paycheck.state';
 import { List } from '../CommonComponents/List';
 
-const columns: Column<IinOutCome>[] = [
+const columns: Column<IPaycheck>[] = [
   {
     Header: 'date',
-    accessor: (originalRow) => new Date(originalRow.UTIME).toISOString(),
+    accessor: (originalRow) => new Date(originalRow.date).toISOString(),
   },
   {
     Header: 'category',
-    accessor: 'NAME',
+    accessor: 'type',
   },
   {
     Header: 'amount',
-    accessor: 'AMOUNT_ACCOUNT',
+    accessor: 'amount',
   },
   {
     Header: 'currency',
-    accessor: 'currencyUid',
+    accessor: 'salary',
   },
   {
     Header: 'description',
-    accessor: 'ZCONTENT',
+    accessor: 'description',
   },
 ];
 
-export const TransactionsList = observer(() => {
-  const data = TransactionState.list;
+export const PaycheckList = observer(() => {
+  const data = PaycheckState.list;
 
   return (
     <>
@@ -44,8 +43,6 @@ export const TransactionsList = observer(() => {
         </Col>
       </Row>
       <List columns={columns} data={data} pagination />
-
-      <AddTransaction />
     </>
   );
 });

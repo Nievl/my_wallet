@@ -1,13 +1,14 @@
 import { observer } from 'mobx-react-lite';
-import { Button, ButtonGroup, Col, Row, Table } from 'reactstrap';
-import { categorysState } from '../states/category';
-import { currenciesState } from '../states/currency';
+import { Button, ButtonGroup, Col, Row } from 'reactstrap';
+import { CategorysState } from '../states/category.state';
+import { CurrenciesState } from '../states/currency.state';
 import { viewState } from '../states/view';
+import { CategoryList } from './CategoryList';
+import { CurrencyList } from './CurrencyList';
 
 export const Options = observer(() => {
   const _loadCategory = () => {
-    currenciesState.getAll();
-    categorysState.getAll();
+    viewState.initialReq();
   };
 
   return (
@@ -23,54 +24,8 @@ export const Options = observer(() => {
         </ButtonGroup>
       </Col>
       <Row>
-        <Col xs="4">
-          <h4>Category</h4>
-          <Table bordered hover>
-            <thead>
-              <tr>
-                <th>id</th>
-                <th>Имя</th>
-              </tr>
-            </thead>
-            <tbody>
-              {categorysState.list.map((c) => (
-                <tr key={c.uid}>
-                  <td>{c.uid}</td>
-                  <td>{c.NAME}</td>
-                </tr>
-              ))}
-              {categorysState.list.length === 0 && (
-                <tr>
-                  <td colSpan={4}>нет данных</td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
-        </Col>
-        <Col xs="4">
-          <h4>Currensy</h4>
-          <Table bordered hover>
-            <thead>
-              <tr>
-                <td>id</td>
-                <th>Имя</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currenciesState.list.map((c) => (
-                <tr key={c.uid}>
-                  <th>{c.uid}</th>
-                  <td>{c.NAME}</td>
-                </tr>
-              ))}
-              {currenciesState.list.length === 0 && (
-                <tr>
-                  <td colSpan={4}>нет данных</td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
-        </Col>
+        <CategoryList list={CategorysState.list} />
+        <CurrencyList list={CurrenciesState.list} />
       </Row>
     </div>
   );

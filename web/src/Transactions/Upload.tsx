@@ -1,6 +1,5 @@
 import { Button, Card, CardBody, CardTitle, Col, Form, FormGroup, Input, InputGroup, Label } from 'reactstrap';
 import { uploadOptions } from '../../dto/Transaction';
-import { transactionState } from '../states/transaction';
 
 /**
  * @deprecated

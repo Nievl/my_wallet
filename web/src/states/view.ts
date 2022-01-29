@@ -1,7 +1,10 @@
 import { makeAutoObservable } from 'mobx';
-import { categorysState } from './category';
-import { currenciesState } from './currency';
-import { transactionState } from './transaction';
+import { CategorysState } from './category.state';
+import { CompanyState } from './company.state';
+import { CurrenciesState } from './currency.state';
+import { PaycheckState } from './paycheck.state';
+import { SalaryState } from './salary.state';
+import { TransactionState } from './transaction.state';
 
 class View {
   addOption = false;
@@ -18,9 +21,12 @@ class View {
     this.addTransaction = isOpened;
   }
   initialReq() {
-    categorysState.getAll();
-    currenciesState.getAll();
-    transactionState.getAll();
+    CategorysState.getAll();
+    CurrenciesState.getAll();
+    TransactionState.getAll();
+    PaycheckState.getAll();
+    CompanyState.getAll();
+    SalaryState.getAll();
   }
 }
 
