@@ -2,9 +2,11 @@ import { observer } from 'mobx-react-lite';
 import { Button, ButtonGroup, Col, Row } from 'reactstrap';
 import { CategorysState } from '../states/category.state';
 import { CurrenciesState } from '../states/currency.state';
+import { PaycheckState } from '../states/paycheck.state';
 import { viewState } from '../states/view';
 import { CategoryList } from './CategoryList';
 import { CurrencyList } from './CurrencyList';
+import { PaycheckTypesList } from './PaycheckTypesList';
 
 export const Options = observer(() => {
   const _loadCategory = () => {
@@ -26,6 +28,9 @@ export const Options = observer(() => {
       <Row>
         <CategoryList list={CategorysState.list} />
         <CurrencyList list={CurrenciesState.list} />
+      </Row>
+      <Row>
+        <PaycheckTypesList list={PaycheckState.listTypes} />
       </Row>
     </div>
   );

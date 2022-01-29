@@ -1,20 +1,19 @@
 import { makeObservable } from 'mobx';
 import { Iresult } from '../../dto/result';
-import { IPaycheck, PaycheckRequest } from '../../dto/Paycheck';
+import { IMonth, IMonthType, MonthRequest } from '../../dto/Month';
 import request from '../controllers';
 import AbstractState from './AbstractState';
-import { PaycheckType } from '../../../src/models/entity/PaycheckType';
 
-class Paycheck extends AbstractState<IPaycheck> {
-  listTypes: PaycheckType[] = [];
+class Month extends AbstractState<IMonth> {
+  listTypes: IMonthType[] = [];
 
   constructor() {
-    super('/paycheck');
+    super('/month');
     makeObservable(this, {});
   }
 
   async getAllTypes() {
-    const result = await request.get<PaycheckType[]>({ url: '/paychecktypes' });
+    const result = await request.get<IMonthType[]>({ url: '/monthtypes' });
     if (result) this.listTypes = result;
   }
 
@@ -23,10 +22,10 @@ class Paycheck extends AbstractState<IPaycheck> {
     const result = await request.delete<Iresult>({ url });
     if (result) this.list = this.list.filter((tr) => tr.id !== id);
   }
-  async addOne(transaction: PaycheckRequest) {
-    const result = await request.post<IPaycheck>({ url: this.url, body: transaction });
+
+  async addOne(month: MonthRequest) {
+    const result = await request.post<IMonth>({ url: this.url, body: month });
     if (result) this.list.push(result);
   }
 }
-
-export const PaycheckState = new Paycheck();
+export const MonthState = new Month();

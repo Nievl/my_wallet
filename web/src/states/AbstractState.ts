@@ -3,7 +3,6 @@ import request from '../controllers';
 
 const Props = {
   list: observable,
-  add: action,
   getAll: action,
 };
 
@@ -14,10 +13,6 @@ export default abstract class AbstractState<T> {
     this.list = [];
     this.url = url;
     makeObservable(this, Props);
-  }
-
-  add(list: T[]) {
-    this.list = list;
   }
 
   async getAll() {

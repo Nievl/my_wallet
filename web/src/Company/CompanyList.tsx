@@ -5,6 +5,7 @@ import { ICompany } from '../../dto/Company';
 import { List } from '../CommonComponents/List';
 import { CompanyState } from '../states/company.state';
 import { viewState } from '../states/view';
+import { AddCompany } from './AddNew';
 
 const columns: Column<ICompany>[] = [
   {
@@ -32,12 +33,13 @@ export const CompanyList = observer(() => {
       <h4>Company</h4>
       <Row className="m-3">
         <Col xs={6}>
-          <Button color="primary" onClick={() => viewState.showAddTransaction(true)}>
+          <Button color="primary" onClick={() => viewState.showAddCompany(true)}>
             Добавить
           </Button>
         </Col>
       </Row>
       <List columns={columns} data={data} pagination />
+      <AddCompany />
     </>
   );
 });

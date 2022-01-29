@@ -1,17 +1,17 @@
 import { observer } from 'mobx-react-lite';
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Iform } from '../../dto';
 import { inOutComeRequest } from '../../dto/Transaction';
+import { AmountInput, DateInput, DescInput } from '../CommonComponents/Inputs';
 import { CategorysState } from '../states/category.state';
 import { CurrenciesState } from '../states/currency.state';
 import { TransactionState } from '../states/transaction.state';
 
 import { viewState } from '../states/view';
 
-interface Props {}
+type form = Iform<inOutComeRequest>;
 
-type form = { [key in keyof inOutComeRequest]: { value: string } } & HTMLFormElement;
-
-export const AddTransaction = observer(({}: Props) => {
+export const AddTransaction = observer(() => {
   if (!viewState.addTransaction) {
     return null;
   }
@@ -35,7 +35,7 @@ export const AddTransaction = observer(({}: Props) => {
         <ModalBody>
           <FormGroup>
             <Label for="category">Категория</Label>
-            <Input id="category" name="category" placeholder="with a placeholder" type="select" required>
+            <Input id="category" name="category" type="select" required>
               {CategorysState.list.map((c) => (
                 <option key={c.uid} value={c.uid}>
                   {c.NAME}
@@ -43,13 +43,10 @@ export const AddTransaction = observer(({}: Props) => {
               ))}
             </Input>
           </FormGroup>
-          <FormGroup>
-            <Label for="amount">Сумма</Label>
-            <Input id="amount" name="amount" placeholder="with a placeholder" type="number" required />
-          </FormGroup>
+          <AmountInput />
           <FormGroup>
             <Label for="currency">Валюта</Label>
-            <Input id="currency" name="currency" placeholder="with a placeholder" type="select" required>
+            <Input id="currency" name="currency" type="select" required>
               {CurrenciesState.list.map((c) => (
                 <option key={c.uid} value={c.uid}>
                   {c.NAME}
@@ -57,24 +54,9 @@ export const AddTransaction = observer(({}: Props) => {
               ))}
             </Input>
           </FormGroup>
-          <FormGroup>
-            <Label for="converted_amount">Конвертированная сумма</Label>
-            <Input
-              id="converted_amount"
-              name="converted_amount"
-              placeholder="with a placeholder"
-              type="number"
-              required
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="dateCreate">Дата создания</Label>
-            <Input id="dateCreate" name="dateCreate" placeholder="with a placeholder" type="date" required />
-          </FormGroup>
-          <FormGroup>
-            <Label for="description">Описание</Label>
-            <Input id="description" name="description" placeholder="password placeholder" type="textarea" />
-          </FormGroup>
+
+          <DateInput name="dateCreate" title="Дата создания" />
+          <DescInput />
         </ModalBody>
         <ModalFooter>
           <Button color="success" type="submit">

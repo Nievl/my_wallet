@@ -2,8 +2,9 @@ import { Column } from 'react-table';
 import { Button, Col, Row } from 'reactstrap';
 import { List } from '../CommonComponents/List';
 import { viewState } from '../states/view';
-import { SalaryState } from '../states/salary.state';
+import { SalaryState } from '../states/Salary.state';
 import { ISalary } from '../../dto/Salary';
+import { AddSalary } from './AddNew';
 
 const columns: Column<ISalary>[] = [
   {
@@ -35,12 +36,13 @@ export const SalaryList = () => {
       <h4>Salary</h4>
       <Row className="m-3">
         <Col xs={6}>
-          <Button color="primary" onClick={() => viewState.showAddTransaction(true)}>
+          <Button color="primary" onClick={() => viewState.showAddSalary(true)}>
             Добавить
           </Button>
         </Col>
       </Row>
       <List columns={columns} data={data} pagination />
+      <AddSalary />
     </>
   );
 };

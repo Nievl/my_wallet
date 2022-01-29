@@ -1,5 +1,5 @@
-import { Transaction } from '../../src/models/entity/Transaction';
 import { IinOutCome as _IinOutCome } from '../../src/models/interfaces/Itransaction';
+
 export interface ParsedTransaction {
   amount: string;
   category: string;
@@ -8,13 +8,6 @@ export interface ParsedTransaction {
   date: string;
   description: string;
 }
-
-export type ITransaction = Transaction;
-
-export type TransactionRequest = Omit<ITransaction, 'id' | 'dateChange' | 'hash' | 'category' | 'currency'> & {
-  category: number;
-  currency: number;
-};
 
 export type inOutComeRequest = {
   category: string;

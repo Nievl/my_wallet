@@ -46,14 +46,14 @@ const App = () => {
       <Col sm="10">
         <Nav tabs>
           {tabs.map((tab) => (
-            <NavItem>
+            <NavItem key={tab.key}>
               <NavLink onClick={() => setKey(tab.key)}>{tab.name}</NavLink>
             </NavItem>
           ))}
         </Nav>
         <TabContent activeTab={key}>
           {tabs.map((tab) => (
-            <TabPane tabId={tab.key}>
+            <TabPane tabId={tab.key} key={tab.key}>
               <Row>
                 <Col sm="12" className="m-3">
                   {tab.component}

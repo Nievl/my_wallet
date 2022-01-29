@@ -3,7 +3,7 @@ import { Connection, createConnections, getConnection } from 'typeorm';
 import config from './config';
 import { requiredMonthes, requiredPaychecks } from './models/constants';
 import { MonthType } from './models/entity/MonthType';
-import { MonthTypeRequest } from '../web/dto/MonthType';
+import { MonthTypeRequest } from '../web/dto/Month';
 import { PaycheckTypeRequest } from '../web/dto/Paycheck';
 import { PaycheckType } from './models/entity/PaycheckType';
 import { logger } from './services/initLog';

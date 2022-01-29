@@ -1,5 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Company } from './Company';
+import { Month } from './Month';
 import { PaycheckType } from './PaycheckType';
 import { Salary } from './Salary';
 
@@ -16,6 +17,9 @@ export class Paycheck {
 
   @ManyToOne(() => Salary, (salary) => salary.id)
   salary: Salary;
+
+  @ManyToOne(() => Month, (month) => month.id)
+  month: Month;
 
   @Column()
   amount: number;
